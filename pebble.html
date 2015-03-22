@@ -16,18 +16,56 @@
 		</div>
 		<div data-role="content" data-theme="a">
 	   	<label>
-      		<input type="checkbox" name="invert">Invert display
+      		<input type="checkbox" id="invert">Invert display
     		</label>
-	   	<label for="vibePattern">Vibration Pattern:</label>
-         <select name="vibePattern" id="vibePattern">
-            <option value="1">One short</option>
-            <option value="2">Two short</option>
-            <option value="3">One Long</option>
-            <option value="4">Two Long</option>
-         </select>
-			<button type="submit" id="save">Save</button>
-			<button type="submit" id="cancel">Cancel</button>
+	   	<div class="ui-field-contain">
+         	<label for="vibePattern">Vibration Pattern:</label>
+            <select name="vibePattern" id="vibePattern">
+               <option value="1">1x short</option>
+               <option value="2">2x short</option>
+               <option value="3">1x Long</option>
+               <option value="4">2x Long</option>
+	         </select>
+			</div>
+			<fieldset class="ui-grid-a">
+           <div style="padding-right:5px;" class="ui-block-a"><button type="submit" id="save">Save</button></div>
+           <div style="padding-left:5px;" class="ui-block-b"><button type="submit" id="cancel">Cancel</button></div>	   
+			</fieldset>
      </div>
 	</div>
+    <script>
+      function saveOptions() {
+        var options = {
+          'invert': $("input:checkbox[id=invert]:checked").val()==null?0:1,
+          'vibePattern': $("#vibePattern").val()
+        }
+        return options;
+      }
+      
+      $(document).ready(function() {
+        //$('#vibePattern').val(4).selectmenu('refresh');
+        $('#invert').attr("checked",true).checkboxradio("refresh");
+        //var priorSearch = getURLVariable('searchingFor');
+        //priorSearch = decodeURI(priorSearch);
+        //if (priorSearch) {
+        //  $('#searchingFor').html(priorSearch);
+        //}
+        $("#cancel").click(function() {
+          document.location = "pebblejs://close";
+        });
+        $("#save").click(function() {
+          var location = "pebblejs://close#" + encodeURIComponent(JSON.stringify(saveOptions()));
+          document.location = location;
+        });
+      });
+      function getURLVariable(name) {
+        name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+        var regexS = "[\\?&]"+name+"=([^&#]*)",
+            regex = new RegExp(regexS),
+            results = regex.exec(window.location.href);
+        if (results == null) return "";
+        else return results[1];
+      }
+    </script>
 </body>
 </html>
