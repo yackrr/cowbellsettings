@@ -21,8 +21,9 @@
 	   	<div class="ui-field-contain">
          	<label for="vibePattern">Vibration Pattern:</label>
             <select name="vibePattern" id="vibePattern">
-               <option value="1">1x short</option>
-               <option value="2">2x short</option>
+               <option value="0">None</option>
+               <option value="1">1x Short</option>
+               <option value="2">2x Short</option>
                <option value="3">1x Long</option>
                <option value="4">2x Long</option>
 	         </select>
@@ -43,13 +44,10 @@
       }
       
       $(document).ready(function() {
-        //$('#vibePattern').val(4).selectmenu('refresh');
-        $('#invert').attr("checked",true).checkboxradio("refresh");
-        //var priorSearch = getURLVariable('searchingFor');
-        //priorSearch = decodeURI(priorSearch);
-        //if (priorSearch) {
-        //  $('#searchingFor').html(priorSearch);
-        //}
+        var invert = getURLVariable('invert');
+        var vibePattern = getURLVariable('vibePattern');
+        $('#invert').attr("checked",invert=="1"?true:false).checkboxradio("refresh");
+        $('#vibePattern').val(vibePattern).selectmenu('refresh');
         $("#cancel").click(function() {
           document.location = "pebblejs://close";
         });
