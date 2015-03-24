@@ -49,7 +49,7 @@
         $('#invert').attr("checked",invert=="1"?true:false).checkboxradio("refresh");
         $('#vibePattern').val(vibePattern).selectmenu('refresh');
         $("#cancel").click(function() {
-          document.location = "pebblejs://close";
+          document.location = "pebblejs://close#cancelled";
         });
         $("#save").click(function() {
           var location = "pebblejs://close#" + encodeURIComponent(JSON.stringify(saveOptions()));
