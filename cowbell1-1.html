@@ -1,9 +1,71 @@
-<!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>jQuery Mobile: Theme Download</title>
+	<link rel="stylesheet" href="settings.min.css" />
+	<link rel="stylesheet" href="jquery.mobile.icons.min.css" />
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+   <script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.mode.flipbox.min.js"></script>
 </head>
 <body>
-
+	<div data-role="page" data-theme="a">
+		<div data-role="header" data-position="inline">
+			<h1>Cowbell Settings</h1>
+		</div>
+		<div data-role="content" data-theme="a">
+	   	<label>
+      		<input type="checkbox" id="invert">Invert display
+    		</label>
+	   	<div class="ui-field-contain">
+         	<label for="vibePattern">Vibration Pattern:</label>
+            <select name="vibePattern" id="vibePattern">
+               <option value="0">Disabled</option>
+               <option value="1">1x Short</option>
+               <option value="2">2x Short</option>
+               <option value="3">1x Long</option>
+               <option value="4">2x Long</option>
+	         </select>
+			</div>
+			<fieldset class="ui-grid-a">
+           <div style="padding-right:5px;" class="ui-block-a"><button type="submit" id="save">Save</button></div>
+           <div style="padding-left:5px;" class="ui-block-b"><button type="submit" id="cancel">Cancel</button></div>	   
+			</fieldset>
+        	<input type="text" data-role="datebox" data-options='{"mode":"calbox"}'>
+     </div>
+	</div>
+    <script>
+      function saveOptions() {
+        var options = {
+          'invert': $("input:checkbox[id=invert]:checked").val()==null?0:1,
+          'vibePattern': $("#vibePattern").val()
+        }
+        return options;
+      }
+      
+      $(document).ready(function() {
+        var invert = getURLVariable('invert');
+        var vibePattern = getURLVariable('vibePattern');
+        $('#invert').attr("checked",invert=="1"?true:false).checkboxradio("refresh");
+        $('#vibePattern').val(vibePattern).selectmenu('refresh');
+        $("#cancel").click(function() {
+          document.location = "pebblejs://close#cancelled";
+        });
+        $("#save").click(function() {
+          var location = "pebblejs://close#" + encodeURIComponent(JSON.stringify(saveOptions()));
+          document.location = location;
+        });
+      });
+      function getURLVariable(name) {
+        name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+        var regexS = "[\\?&]"+name+"=([^&#]*)",
+            regex = new RegExp(regexS),
+            results = regex.exec(window.location.href);
+        if (results == null) return "";
+        else return results[1];
+      }
+    </script>
 </body>
 </html>
